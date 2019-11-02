@@ -16,6 +16,7 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
+
     const userExists = await User.findOne({ where: { email: req.body.email } });
 
     if (userExists) {
@@ -23,6 +24,7 @@ class UserController {
     }
 
     const { id, name, email } = await User.create(req.body);
+
     return res.json({
       id,
       name,
@@ -41,7 +43,7 @@ class UserController {
           oldPassword ? field.required() : field
         ),
       confirmPassword: Yup.string().when('password', (password, field) =>
-        password ? field.required().oneOf([yup.ref('password')]) : field
+        password ? field.required().oneOf([Yup.ref('password')]) : field
       ),
     });
 
@@ -51,7 +53,8 @@ class UserController {
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
-    if (email != user.email) {
+
+    if (email !== user.email) {
       const userExists = await User.findOne({
         where: { email },
       });
