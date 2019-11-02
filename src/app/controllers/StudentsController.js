@@ -40,7 +40,46 @@ class StudentsController {
     });
   }
 
-  // async update(req, res) {}
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      dateage: Yup.date(),
+      weight: Yup.number().positive(),
+      height: Yup.number().positive(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { id } = req.params;
+    const { email } = req.body;
+    const student = await Students.findByPk(id);
+
+    if (email !== student.email) {
+      const emailExists = await Students.findOne({
+        where: { email },
+      });
+      if (emailExists) {
+        return res.status(400).json({ error: 'student already exists.' });
+      }
+    }
+
+    const { name, dateage, weight, height } = await student.update(req.body);
+
+    const age = Math.floor(student.checkAge());
+
+    return res.json({
+      id,
+      name,
+      email,
+      dateage,
+      age,
+      weight,
+      height,
+    });
+  }
 }
 
 export default new StudentsController();
