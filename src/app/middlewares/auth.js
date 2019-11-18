@@ -12,15 +12,17 @@ export default async (req, res, next) => {
 
   const [, token] = authHeader.split(' ');
 
-  const adm = await User.findOne({
-    where: { email: 'admin@gympoint.com' },
-  });
-
   try {
     const decoded = jwt.verify(token, authConfig.secret);
-    if (decoded.id !== adm.id) {
+
+    const adm = await User.findOne({
+      where: { id: `${decoded.id}` },
+    });
+
+    if (adm.administrator === false) {
       return res.status(401).json({ error: 'User is not Admin' });
     }
+
     req.userId = decoded.id;
     return next();
   } catch (err) {
