@@ -72,7 +72,19 @@ class PlansController {
     });
   }
 
-  async delete(req, res) {}
+  async delete(req, res) {
+    const plan = await Plans.findByPk(req.params.id);
+
+    if (!plan) {
+      return res.status(401).json({ error: 'The Plan does not exists' });
+    }
+
+    await plan.destroy();
+
+    return res.json({
+      sucess: `The plan ${plan.title}, id: ${plan.id} was deleted`,
+    });
+  }
 }
 
 export default new PlansController();
