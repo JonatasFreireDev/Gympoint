@@ -82,7 +82,7 @@ class PlansController {
     await plan.destroy();
 
     return res.json({
-      sucess: `The plan ${plan.title}, id: ${plan.id} was deleted`,
+      sucess: `The Plan ${plan.title}, id: ${plan.id} was deleted`,
     });
   }
 }
