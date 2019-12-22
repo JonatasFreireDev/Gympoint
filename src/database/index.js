@@ -5,10 +5,11 @@ import User from '../app/models/User';
 import Students from '../app/models/Students';
 import Plans from '../app/models/Plans';
 import Enrollment from '../app/models/Enrollment';
+import HelpOrders from '../app/models/HelpOrders';
 
 import databaseConfig from '../config/database';
 
-const models = [User, Students, Plans, Enrollment];
+const models = [User, Students, Plans, Enrollment, HelpOrders];
 
 class Database {
   constructor() {
@@ -25,12 +26,15 @@ class Database {
     );
   }
 
-  mongo(){
-    this.mongoConnection = mongoose.connect('mongodb://localhost:27017/gymmongo',{
-      useNewUrlParser: true,
-      useFindAndModify:true,
-      useUnifiedTopology: true
-    })
+  mongo() {
+    this.mongoConnection = mongoose.connect(
+      'mongodb://localhost:27017/gymmongo',
+      {
+        useNewUrlParser: true,
+        useFindAndModify: true,
+        useUnifiedTopology: true,
+      }
+    );
   }
 }
 
