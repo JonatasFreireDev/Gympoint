@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
 import User from '../app/models/User';
 import Students from '../app/models/Students';
@@ -12,6 +13,7 @@ const models = [User, Students, Plans, Enrollment];
 class Database {
   constructor() {
     this.init();
+    this.mongo();
   }
 
   init() {
@@ -21,6 +23,14 @@ class Database {
     models.map(
       model => model.associate && model.associate(this.connection.models)
     );
+  }
+
+  mongo(){
+    this.mongoConnection = mongoose.connect('mongodb://localhost:27017/gymmongo',{
+      useNewUrlParser: true,
+      useFindAndModify:true,
+      useUnifiedTopology: true
+    })
   }
 }
 
