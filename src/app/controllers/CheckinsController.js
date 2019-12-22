@@ -1,25 +1,9 @@
-import * as Yup from 'yup';
 import { subWeeks } from 'date-fns';
-import Student from '../models/Students';
 import Checkins from '../schemas/Checkins';
 
 class CheckinsController {
   async index(req, res) {
-    const schema = Yup.object().shape({
-      student_id: Yup.number()
-        .integer()
-        .positive(),
-    });
-    if (!(await schema.isValid(req.params))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
-    const { student_id } = req.params;
-
-    const existStudent = await Student.findByPk(student_id);
-    if (!existStudent) {
-      return res.status(400).json({ error: 'Student does not exists' });
-    }
+    const { student_id } = req;
 
     const checkins = await Checkins.find({
       student_id,
@@ -31,21 +15,7 @@ class CheckinsController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      student_id: Yup.number()
-        .integer()
-        .positive(),
-    });
-    if (!(await schema.isValid(req.params))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
-
-    const { student_id } = req.params;
-
-    const existStudent = await Student.findByPk(student_id);
-    if (!existStudent) {
-      return res.status(400).json({ error: 'Student does not exists' });
-    }
+    const { student_id } = req;
 
     const userCheckins = await Checkins.find({ student_id });
     const today = new Date();
