@@ -12,6 +12,10 @@ class HelpOrders extends Model {
         sequelize,
       }
     );
+
+    this.addHook('beforeUpdate', async helps => {
+      helps.answer_at = new Date();
+    });
   }
 
   static associate(models) {
