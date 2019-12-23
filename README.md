@@ -1,4 +1,4 @@
-<div style="display: flex; flex-direction: column; align-items: center;">
+<div align="center" style="display: flex; flex-direction: column; align-items: center;">
   <p><img style="margin: 30px 0 30px" src="/src/app/views/image/logo.png" alt=""></p>
 
 <p>Esta é minha primeira e mais completa API criada com os recursos NodeJS e sua features. Essa API é para academia e existem recursos como: criar um plano, registrar usuários e alunos na academia, sessões, inscrição para estudantes, check-ins, envios de emails e pedidos de ajuda.</p>
